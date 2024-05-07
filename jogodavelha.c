@@ -223,6 +223,7 @@ void jogo_jogar_robo(int jogador)
             marcador = simbolo_jogador_2;
             break;
     }
+    printf("Vez do Robo.");
     if (dificuldade == 0)
     {
         while (1 == 1)
@@ -248,7 +249,6 @@ void jogo_jogar_robo(int jogador)
         int possibilidade_vitoria;
         int jogada_realizada = 0;
         int jogada_ensaiada = 0;
-        int jogada_canto = 0;
         int foco;
         for (i = 0; i < 3; i++)
         {
@@ -383,46 +383,18 @@ void jogo_jogar_robo(int jogador)
                 }
             }  
         }
-        for (i = 0; i < 3; i+=2)
-        {
-            for (j = 0; j < 3; j+=2)
-            {
-                if (board[i][j] == ' ')
-                {
-                    jogada_canto = 1;
-                }
-            }
-        }
-
         while (jogada_realizada == 0)
         {
-            if (jogada_canto == 1)
+            input_linha = sorteio(3);
+            input_coluna = sorteio(3);
+            if (board[input_linha][input_coluna] != ' ')
             {
-                input_linha = sorteio(2)*2;
-                input_coluna = sorteio(2)*2;
-                if (board[input_linha][input_coluna] != ' ')
-                {
-                    continue;
-                }
-                else if (board[input_linha][input_coluna] == ' ')
-                {
-                    board[input_linha][input_coluna] = marcador;
-                    jogada_realizada = 1;
-                }
+                continue;
             }
-            else if (jogada_canto == 0)
+            else if (board[input_linha][input_coluna] == ' ')
             {
-                input_linha = sorteio(3);
-                input_coluna = sorteio(3);
-                if (board[input_linha][input_coluna] != ' ')
-                {
-                    continue;
-                }
-                else if (board[input_linha][input_coluna] == ' ')
-                {
-                    board[input_linha][input_coluna] = marcador;
-                    jogada_realizada = 1;
-                }
+                board[input_linha][input_coluna] = marcador;
+                jogada_realizada = 1;
             }
             
         }
