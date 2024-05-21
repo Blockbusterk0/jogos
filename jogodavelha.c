@@ -8,6 +8,7 @@ char simbolo_jogador_1 = 'X';
 char simbolo_jogador_2 = 'O';
 int boardskin = 1;
 int dificuldade = 1;
+
 int sorteio(int limite)
 {
     int dado = rand() % limite ;
@@ -90,7 +91,6 @@ int jogo_numero_jogadores()
 
         }  
     }
-    
     return jogadores;
 }
 
@@ -164,6 +164,50 @@ int jogo_teste_vitoria()
         }
     }
     return 0;
+}
+
+void jogo_imprimir_grade()
+{
+    if (boardskin == 1)
+    {  
+        printf("\n\n\n  1   2   3 ");
+        printf("\n1 %c | %c | %c ", board[0][0], board[0][1], board[0][2]);
+        printf("\n ---|---|---");
+        printf("\n2 %c | %c | %c ", board[1][0], board[1][1], board[1][2]);
+        printf("\n ---|---|---");
+        printf("\n3 %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
+    }
+    if (boardskin == 2)
+    {  
+        printf("\n\n\n  1   2   3 ");
+        printf("\n1 %c | %c | %c ", board[0][0], board[0][1], board[0][2]);
+        printf("\n -------|---");
+        printf("\n2 %c | %c | %c ", board[1][0], board[1][1], board[1][2]);
+        printf("\n ---|-------");
+        printf("\n3 %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
+    }
+    if (boardskin == 3)
+    {  
+        printf("\n\n\n  1   2   3 ");
+        printf("\n1 %c # %c # %c ", board[0][0], board[0][1], board[0][2]);
+        printf("\n ###########");
+        printf("\n2 %c # %c # %c ", board[1][0], board[1][1], board[1][2]);
+        printf("\n ###########");
+        printf("\n3 %c # %c # %c \n", board[2][0], board[2][1], board[2][2]);
+    }
+    if (boardskin == 4)
+    {  
+        printf("\n\n\n  1   2   3 ");
+        printf("\n1 %c | %c | %c ", board[0][0], board[0][1], board[0][2]);
+        printf("\n jogodavelha");
+        printf("\n2 %c | %c | %c ", board[1][0], board[1][1], board[1][2]);
+        printf("\n jogodavelha");
+        printf("\n3 %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
+    }
+    if (boardskin == 0)
+    {  
+        printf("\n\n\n#\n");
+    }
 }
 
 void jogo_jogar_jogador(int jogador)
@@ -400,50 +444,6 @@ void jogo_jogar_robo(int jogador)
         }
     }
     jogo_imprimir_grade();
-}
-
-void jogo_imprimir_grade()
-{
-    if (boardskin == 1)
-    {  
-        printf("\n\n\n  1   2   3 ");
-        printf("\n1 %c | %c | %c ", board[0][0], board[0][1], board[0][2]);
-        printf("\n ---|---|---");
-        printf("\n2 %c | %c | %c ", board[1][0], board[1][1], board[1][2]);
-        printf("\n ---|---|---");
-        printf("\n3 %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
-    }
-    if (boardskin == 2)
-    {  
-        printf("\n\n\n  1   2   3 ");
-        printf("\n1 %c | %c | %c ", board[0][0], board[0][1], board[0][2]);
-        printf("\n -------|---");
-        printf("\n2 %c | %c | %c ", board[1][0], board[1][1], board[1][2]);
-        printf("\n ---|-------");
-        printf("\n3 %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
-    }
-    if (boardskin == 3)
-    {  
-        printf("\n\n\n  1   2   3 ");
-        printf("\n1 %c # %c # %c ", board[0][0], board[0][1], board[0][2]);
-        printf("\n ###########");
-        printf("\n2 %c # %c # %c ", board[1][0], board[1][1], board[1][2]);
-        printf("\n ###########");
-        printf("\n3 %c # %c # %c \n", board[2][0], board[2][1], board[2][2]);
-    }
-    if (boardskin == 4)
-    {  
-        printf("\n\n\n  1   2   3 ");
-        printf("\n1 %c | %c | %c ", board[0][0], board[0][1], board[0][2]);
-        printf("\n jogodavelha");
-        printf("\n2 %c | %c | %c ", board[1][0], board[1][1], board[1][2]);
-        printf("\n jogodavelha");
-        printf("\n3 %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
-    }
-    if (boardskin == 0)
-    {  
-        printf("\n\n\n#\n");
-    }
 }
 
 int main()
