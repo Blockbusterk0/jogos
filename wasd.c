@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include <conio.h>
+#include <stdio.h>
+#include <string.h> 
 #include <stdlib.h>
 #include <time.h>
 
@@ -9,10 +10,10 @@ int pos_inimigos[5][2] = {{0,0},{0,0},{0,0},{0,0},{0,0}};
 int pos_pontos[10][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 int quantidade_barreiras;
 int quantidade_inimigos;
-char jogador = 79;
-char inimigo = 158;
+char jogador = 'O';
+char inimigo = 'x';
 char barreira = 219;
-char ponto = 15;
+char ponto = 'o';
 int pontuacao;
 
 int timer(float a)
@@ -56,7 +57,7 @@ void jogo_limpar_mapa()
 void jogo_imprime_mapa()
 {
     int i, j;
-    printf("\n\n\n\n");
+    printf("\e[16A                                           \n\e[1A");
     for (i = 0; i < 16; i++)
     {
         for (j = 0; j < 16; j++)
@@ -66,32 +67,7 @@ void jogo_imprime_mapa()
         if (i == 0)
         {
             printf("   pontuacao: %d", pontuacao);
-        }
-        if (i == 2)
-        {
-            printf("   player: %d, %d    ",pos_atual_player[0], pos_atual_player[1]);
-        }
-        if (i == 4)
-        {
-            printf("   inimigo 0: %d, %d     ",pos_inimigos[0][0], pos_inimigos[0][1]);
-        }
-        if (i == 5)
-        {
-            printf("   inimigo 1: %d, %d     ",pos_inimigos[1][0], pos_inimigos[1][1]);
-        }
-        if (i == 6)
-        {
-            printf("   inimigo 2: %d, %d     ",pos_inimigos[2][0], pos_inimigos[2][1]);
-        }
-        if (i == 7)
-        {
-            printf("   inimigo 3: %d, %d     ",pos_inimigos[3][0], pos_inimigos[3][1]);
-        }
-        if (i == 8)
-        {
-            printf("   inimigo 4: %d, %d     ",pos_inimigos[4][0], pos_inimigos[4][1]);
-        }
-        
+        }   
         printf("\n");
     }
 }
@@ -273,30 +249,48 @@ void jogo_controle_player()
 
 void main()
 {
+    for (int i = 0; i < 20; i++) printf("\n");
+    printf("\e[3A");
     int morreu;
-    pontuacao = 0;
-    srand(time(0));
-    jogo_limpar_mapa();
-    jogo_move_player(8,8);
-    jogo_spawna_inimigos();
-    jogo_spawna_pontos();
-    jogo_imprime_mapa();
-    while(pontuacao < 10)
+    int start = 1;
+    while(start == 1)
     {
-        jogo_controle_player();
-        morreu = jogo_teste_morte();
-        if (morreu == 1) break;
-        jogo_teste_pontos();
-        jogo_move_inimigos();
-        morreu = jogo_teste_morte();
-        if (morreu == 1) break;
-    }
-    if (morreu == 1)
-    {
-        printf("Voce perdeu. Pontuacao: %d", pontuacao);
-    }
-    else
-    {
-        printf("Voce ganhou.");
-    }
+        pontuacao = 0;
+        srand(time(0));
+        jogo_limpar_mapa();
+        jogo_move_player(8,8);
+        jogo_spawna_inimigos();
+        jogo_spawna_pontos();
+        jogo_imprime_mapa();
+        while(pontuacao < 10)
+        {
+            jogo_controle_player();
+            morreu = jogo_teste_morte();
+            if (morreu == 1) break;
+            jogo_teste_pontos();
+            jogo_move_inimigos();
+            morreu = jogo_teste_morte();
+            if (morreu == 1) break;
+        }
+        if (morreu == 1)
+        {
+            printf("Voce perdeu. Pontuacao: %d", pontuacao);
+        }
+        else
+        {
+            printf("Voce ganhou!");
+        }
+        printf("\nDeseja jogar novamente?   [y] sim   [n] nao\n");
+        int choice = getch();
+        while(choice != 'y' && choice != 'n')
+        {
+            choice = getch();
+        }
+        if (choice == 'y') 
+        {
+            printf("\e[2A                                           \n                                           \n\e[2A"); 
+            continue;
+        }
+        if (choice == 'n') start = 0;    
+    }   
 }
