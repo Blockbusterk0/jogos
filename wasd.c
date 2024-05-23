@@ -6,7 +6,7 @@
 
 char mapa[16][16];
 int pos_atual_player[2] = {0,0};
-int pos_inimigos[5][2] = {{0,0},{0,0},{0,0},{0,0},{0,0}};
+int pos_inimigos[10][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 int pos_pontos[10][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 int quantidade_barreiras;
 int quantidade_inimigos;
@@ -112,7 +112,7 @@ int jogo_teste_pontos()
 void jogo_spawna_inimigos()
 {
     int i;
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 10; i++)
     {
         int alocado = 0;
         while (alocado == 0)
@@ -134,7 +134,7 @@ void jogo_spawna_inimigos()
 void jogo_move_inimigos()
 {
     int i;
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 10; i++)
     {
         int moveu = 0;
         while (moveu == 0)
@@ -143,7 +143,7 @@ void jogo_move_inimigos()
             int direcao = sorteio(4);
             if (direcao == 0)
             {
-                if (mapa[pos_inimigos[i][0]][pos_inimigos[i][1]+1] == ' ' || mapa[pos_inimigos[i][0]][pos_inimigos[i][1]+1] == jogador)
+                if (mapa[pos_inimigos[i][0]][pos_inimigos[i][1]+1] != barreira && mapa[pos_inimigos[i][0]][pos_inimigos[i][1]+1] != ponto)
                 {
                     pos_inimigos[i][1] += 1;
                     moveu = 1;
@@ -151,7 +151,7 @@ void jogo_move_inimigos()
             }
             if (direcao == 1)
             {
-                if (mapa[pos_inimigos[i][0]-1][pos_inimigos[i][1]] == ' ' || mapa[pos_inimigos[i][0]-1][pos_inimigos[i][1]] == jogador)
+                if (mapa[pos_inimigos[i][0]-1][pos_inimigos[i][1]] != barreira && mapa[pos_inimigos[i][0]-1][pos_inimigos[i][1]] != ponto)
                 {
                     pos_inimigos[i][0] -= 1;
                     moveu = 1;
@@ -159,7 +159,7 @@ void jogo_move_inimigos()
             }
             if (direcao == 2)
             {
-                if (mapa[pos_inimigos[i][0]][pos_inimigos[i][1]-1] == ' ' || mapa[pos_inimigos[i][0]][pos_inimigos[i][1]-1] == jogador)
+                if (mapa[pos_inimigos[i][0]][pos_inimigos[i][1]-1] != barreira && mapa[pos_inimigos[i][0]][pos_inimigos[i][1]-1] != ponto)
                 {
                     pos_inimigos[i][1] -= 1;
                     moveu = 1;
@@ -167,7 +167,7 @@ void jogo_move_inimigos()
             }
             if (direcao == 3)
             {
-                if (mapa[pos_inimigos[i][0]+1][pos_inimigos[i][1]] == ' ' || mapa[pos_inimigos[i][0]+1][pos_inimigos[i][1]] == jogador)
+                if (mapa[pos_inimigos[i][0]+1][pos_inimigos[i][1]] != barreira && mapa[pos_inimigos[i][0]+1][pos_inimigos[i][1]] != ponto)
                 {
                     pos_inimigos[i][0] += 1;
                     moveu = 1;
@@ -183,7 +183,7 @@ void jogo_move_inimigos()
 int jogo_teste_morte()
 {
     int i;
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 10; i++)
     {
         if (pos_inimigos[i][0] == pos_atual_player[0] && pos_inimigos[i][1] == pos_atual_player[1])
         {
