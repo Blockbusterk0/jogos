@@ -116,7 +116,7 @@ void hud(int tema[3][3])
 
 int robo_joga(int dificuldade, char board[3][3], char iconj1, char iconj2)
 {
-    for(int i = 0; i < 1000000; i++){}
+    for(int i = 0; i < 1000000000; i++){}
     if (dificuldade == 0)
     {
         int input_linha;
@@ -318,7 +318,7 @@ int robo_joga(int dificuldade, char board[3][3], char iconj1, char iconj2)
     }
 }
 
-int imprime_jogo(int jogador, char board[3][3], int tema[3][3], int estilo, char iconj1, char iconj2)
+int imprime_jogo(int jogador, int jogadores, char board[3][3], int tema[3][3], int estilo, char iconj1, char iconj2)
 {
     hud(tema);
     tela_cor_letra(TEXTO);
@@ -328,9 +328,17 @@ int imprime_jogo(int jogador, char board[3][3], int tema[3][3], int estilo, char
     while (true)
     {
         tela_lincol(13,8);
-        printf("Vez do jogador %d ", jogador);
-        if (jogador == 1) printf("- simbolo: %c ", iconj1);
-        else printf("- simbolo: %c ", iconj2);
+        if (jogadores == 1)
+        {
+            if (jogador == 1) printf("Sua vez - marcador: %c ", iconj1);
+            else printf("Vez do Robo - marcador: %c ", iconj2);
+        }
+        if (jogadores == 2)
+        {
+            printf("Vez do jogador %d ", jogador);
+            if (jogador == 1) printf("- marcador: %c ", iconj1);
+            else printf("- marcador: %c ", iconj2);
+        }
         if (estilo == 1)
         {
             tela_lincol(18,45);
@@ -361,55 +369,63 @@ int imprime_jogo(int jogador, char board[3][3], int tema[3][3], int estilo, char
             tela_lincol(23,44);
             printf("┗━━━┻━━━┻━━━┛");
         }
-        if (frame % 8 == 0 ||  frame % 8 == 1 || frame % 8 == 2 ||  frame % 8 == 3)
+        if (!(jogadores == 1 && jogador == 2))
         {
-            tela_lincol(cursor_linha, cursor_coluna);
-            tela_cor_fundo(TITULO);
-            if (cursor_linha == 18 && cursor_coluna == 46 ) printf("%c", board[0][0]);
-            if (cursor_linha == 18 && cursor_coluna == 50 ) printf("%c", board[0][1]);
-            if (cursor_linha == 18 && cursor_coluna == 54 ) printf("%c", board[0][2]);
-            if (cursor_linha == 20 && cursor_coluna == 46 ) printf("%c", board[1][0]);
-            if (cursor_linha == 20 && cursor_coluna == 50 ) printf("%c", board[1][1]);
-            if (cursor_linha == 20 && cursor_coluna == 54 ) printf("%c", board[1][2]);
-            if (cursor_linha == 22 && cursor_coluna == 46 ) printf("%c", board[2][0]);
-            if (cursor_linha == 22 && cursor_coluna == 50 ) printf("%c", board[2][1]);
-            if (cursor_linha == 22 && cursor_coluna == 54 ) printf("%c", board[2][2]);
+            if (frame % 8 == 0 ||  frame % 8 == 1 || frame % 8 == 2 ||  frame % 8 == 3)
+            {
+                tela_lincol(cursor_linha, cursor_coluna);
+                tela_cor_fundo(TITULO);
+                if (cursor_linha == 18 && cursor_coluna == 46 ) printf("%c", board[0][0]);
+                if (cursor_linha == 18 && cursor_coluna == 50 ) printf("%c", board[0][1]);
+                if (cursor_linha == 18 && cursor_coluna == 54 ) printf("%c", board[0][2]);
+                if (cursor_linha == 20 && cursor_coluna == 46 ) printf("%c", board[1][0]);
+                if (cursor_linha == 20 && cursor_coluna == 50 ) printf("%c", board[1][1]);
+                if (cursor_linha == 20 && cursor_coluna == 54 ) printf("%c", board[1][2]);
+                if (cursor_linha == 22 && cursor_coluna == 46 ) printf("%c", board[2][0]);
+                if (cursor_linha == 22 && cursor_coluna == 50 ) printf("%c", board[2][1]);
+                if (cursor_linha == 22 && cursor_coluna == 54 ) printf("%c", board[2][2]);
+            }
+            frame++;
+            tela_cor_fundo(FUNDO);
+            tela_atualiza();
+            char input = tecla_le_char(); // 18,46 ; 18,50 ; 18,54 ; 20,46 ; 20,50; 20,54 ; 22,46 ; 22,50 ; 22,54
+            if (UP)
+            {
+                if (cursor_linha != 18) cursor_linha -= 2;
+                frame = 0;
+            }    
+            if (DOWN)
+            {
+                if (cursor_linha != 22) cursor_linha += 2;
+                frame = 0;
+            }
+            if (LEFT)
+            {
+                if (cursor_coluna != 46) cursor_coluna -= 4;
+                frame = 0;
+            }    
+            if (RIGHT)
+            {
+                if (cursor_coluna != 54) cursor_coluna += 4;
+                frame = 0;
+            }            
+            if (OK)
+            {
+                if (cursor_linha == 18 && cursor_coluna == 46 && board[0][0] == ' ') return 1;
+                if (cursor_linha == 18 && cursor_coluna == 50 && board[0][1] == ' ') return 2;
+                if (cursor_linha == 18 && cursor_coluna == 54 && board[0][2] == ' ') return 3;
+                if (cursor_linha == 20 && cursor_coluna == 46 && board[1][0] == ' ') return 4;
+                if (cursor_linha == 20 && cursor_coluna == 50 && board[1][1] == ' ') return 5;
+                if (cursor_linha == 20 && cursor_coluna == 54 && board[1][2] == ' ') return 6;
+                if (cursor_linha == 22 && cursor_coluna == 46 && board[2][0] == ' ') return 7;
+                if (cursor_linha == 22 && cursor_coluna == 50 && board[2][1] == ' ') return 8;
+                if (cursor_linha == 22 && cursor_coluna == 54 && board[2][2] == ' ') return 9;
+            }
         }
-        frame++;
-        tela_cor_fundo(FUNDO);
-        tela_atualiza();
-        char input = tecla_le_char(); // 18,46 ; 18,50 ; 18,54 ; 20,46 ; 20,50; 20,54 ; 22,46 ; 22,50 ; 22,54
-        if (UP)
+        else
         {
-            if (cursor_linha != 18) cursor_linha -= 2;
-            frame = 0;
-        }    
-        if (DOWN)
-        {
-            if (cursor_linha != 22) cursor_linha += 2;
-            frame = 0;
-        }
-        if (LEFT)
-        {
-            if (cursor_coluna != 46) cursor_coluna -= 4;
-            frame = 0;
-        }    
-        if (RIGHT)
-        {
-            if (cursor_coluna != 54) cursor_coluna += 4;
-            frame = 0;
-        }            
-        if (OK)
-        {
-            if (cursor_linha == 18 && cursor_coluna == 46 && board[0][0] == ' ') return 1;
-            if (cursor_linha == 18 && cursor_coluna == 50 && board[0][1] == ' ') return 2;
-            if (cursor_linha == 18 && cursor_coluna == 54 && board[0][2] == ' ') return 3;
-            if (cursor_linha == 20 && cursor_coluna == 46 && board[1][0] == ' ') return 4;
-            if (cursor_linha == 20 && cursor_coluna == 50 && board[1][1] == ' ') return 5;
-            if (cursor_linha == 20 && cursor_coluna == 54 && board[1][2] == ' ') return 6;
-            if (cursor_linha == 22 && cursor_coluna == 46 && board[2][0] == ' ') return 7;
-            if (cursor_linha == 22 && cursor_coluna == 50 && board[2][1] == ' ') return 8;
-            if (cursor_linha == 22 && cursor_coluna == 54 && board[2][2] == ' ') return 9;
+            tela_atualiza();
+            return 0;
         }
     }
 }
@@ -827,7 +843,7 @@ int pers_dificuldade(int tema[3][3], int ponteiro)
         tela_lincol(17,8);
         printf("Media");
         tela_lincol(28,8);
-        printf("Voltar");
+        printf("Voltar");   
         tela_lincol(pos_ponteiro, 5);
         printf("►");
         tela_atualiza();
@@ -1061,7 +1077,7 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1074,6 +1090,7 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                         jogador_da_rodada = 2;
+                        imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         lugar = robo_joga(dificuldade, jogo, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
@@ -1093,6 +1110,7 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 2;
+                        imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         lugar = robo_joga(dificuldade, jogo, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
@@ -1106,7 +1124,7 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1143,7 +1161,7 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1156,7 +1174,7 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                         jogador_da_rodada = 2;
-                        lugar = imprime_jogo(jogador_da_rodada, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
                         if (lugar == 3) jogo[0][2] = simbolo_j2;
@@ -1175,7 +1193,7 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 2;
-                        lugar = imprime_jogo(jogador_da_rodada, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
                         if (lugar == 3) jogo[0][2] = simbolo_j2;
@@ -1188,7 +1206,7 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;    
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
