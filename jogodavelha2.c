@@ -7,6 +7,11 @@
 #define TEXTO tema[0][0],tema[0][1],tema[0][2]
 #define TITULO tema[1][0],tema[1][1],tema[1][2]
 #define FUNDO tema[2][0],tema[2][1],tema[2][2]
+#define UP input == 'w' || input == 'A'
+#define DOWN input == 's' || input == 'B'
+#define RIGHT input == 'd' || input == 'C'
+#define LEFT input == 'a' || input == 'D'
+#define OK input == '\n' || input == ' '
 
 //Use a proporcao do terminal 99x30!
 
@@ -111,7 +116,7 @@ void hud(int tema[3][3])
 
 int robo_joga(int dificuldade, char board[3][3], char iconj1, char iconj2)
 {
-    
+    for(int i = 0; i < 1000000; i++){}
     if (dificuldade == 0)
     {
         int input_linha;
@@ -320,14 +325,14 @@ int imprime_jogo(int jogador, char board[3][3], int tema[3][3], int estilo, char
     int cursor_linha = 20;
     int cursor_coluna = 50;
     int frame = 0;
-    if (estilo == 1)
+    while (true)
     {
-        while (true)
+        tela_lincol(13,8);
+        printf("Vez do jogador %d ", jogador);
+        if (jogador == 1) printf("- simbolo: %c ", iconj1);
+        else printf("- simbolo: %c ", iconj2);
+        if (estilo == 1)
         {
-            tela_lincol(13,8);
-            printf("Vez do jogador %d ", jogador);
-            if (jogador == 1) printf("- simbolo: %c ", iconj1);
-            else printf("- simbolo: %c ", iconj2);
             tela_lincol(18,45);
             printf(" %c │ %c │ %c", board[0][0], board[0][1], board[0][2]);
             tela_lincol(19,45);
@@ -338,54 +343,9 @@ int imprime_jogo(int jogador, char board[3][3], int tema[3][3], int estilo, char
             printf("───┼───┼───");
             tela_lincol(22,45);
             printf(" %c │ %c │ %c", board[2][0], board[2][1], board[2][2]);
-            if (frame % 8 == 0 ||  frame % 8 == 1 || frame % 8 == 2 ||  frame % 8 == 3)
-            {
-                tela_lincol(cursor_linha, cursor_coluna);
-                tela_cor_fundo(TITULO);
-                printf(" ");
-            }
-            frame++;
-            tela_cor_fundo(FUNDO);
-            tela_atualiza();
-            char input = tecla_le_char(); // 18,46 ; 18,50 ; 18,54 ; 20,46 ; 20,50; 20,54 ; 22,46 ; 22,50 ; 22,54
-            if (input == 'w')
-            {
-                if (cursor_linha != 18) cursor_linha -= 2;
-            }    
-            if (input == 's')
-            {
-                if (cursor_linha != 22) cursor_linha += 2;
-            }
-            if (input == 'a')
-            {
-                if (cursor_coluna != 46) cursor_coluna -= 4;
-            }    
-            if (input == 'd')
-            {
-                if (cursor_coluna != 54) cursor_coluna += 4;
-            }            
-            if (input == '\n')
-            {
-                if (cursor_linha == 18 && cursor_coluna == 46 && board[0][0] == ' ') return 1;
-                if (cursor_linha == 18 && cursor_coluna == 50 && board[0][1] == ' ') return 2;
-                if (cursor_linha == 18 && cursor_coluna == 54 && board[0][2] == ' ') return 3;
-                if (cursor_linha == 20 && cursor_coluna == 46 && board[1][0] == ' ') return 4;
-                if (cursor_linha == 20 && cursor_coluna == 50 && board[1][1] == ' ') return 5;
-                if (cursor_linha == 20 && cursor_coluna == 54 && board[1][2] == ' ') return 6;
-                if (cursor_linha == 22 && cursor_coluna == 46 && board[2][0] == ' ') return 7;
-                if (cursor_linha == 22 && cursor_coluna == 50 && board[2][1] == ' ') return 8;
-                if (cursor_linha == 22 && cursor_coluna == 54 && board[2][2] == ' ') return 9;
-            }
         }
-    }
-    if (estilo == 2)
-    {
-        while (true)
+        if (estilo == 2)
         {
-            tela_lincol(13,8);
-            printf("Vez do jogador %d ", jogador);
-            if (jogador == 1) printf("- simbolo: %c ", iconj1);
-            else printf("- simbolo: %c ", iconj2);
             tela_lincol(17,44);
             printf("┏━━━┳━━━┳━━━┓");
             tela_lincol(18,44);
@@ -400,44 +360,56 @@ int imprime_jogo(int jogador, char board[3][3], int tema[3][3], int estilo, char
             printf("┃ %c ┃ %c ┃ %c ┃", board[2][0], board[2][1], board[2][2]);
             tela_lincol(23,44);
             printf("┗━━━┻━━━┻━━━┛");
-            if (frame % 8 == 0 ||  frame % 8 == 1 || frame % 8 == 2 ||  frame % 8 == 3)
-            {
-                tela_lincol(cursor_linha, cursor_coluna);
-                tela_cor_fundo(TITULO);
-                printf(" ");
-            }
-            frame++;
-            tela_cor_fundo(FUNDO);
-            tela_atualiza();
-            char input = tecla_le_char(); // 18,46 ; 18,50 ; 18,54 ; 20,46 ; 20,50; 20,54 ; 22,46 ; 22,50 ; 22,54
-            if (input == 'w')
-            {
-                if (cursor_linha != 18) cursor_linha -= 2;
-            }    
-            if (input == 's')
-            {
-                if (cursor_linha != 22) cursor_linha += 2;
-            }
-            if (input == 'a')
-            {
-                if (cursor_coluna != 46) cursor_coluna -= 4;
-            }    
-            if (input == 'd')
-            {
-                if (cursor_coluna != 54) cursor_coluna += 4;
-            }            
-            if (input == '\n')
-            {
-                if (cursor_linha == 18 && cursor_coluna == 46 && board[0][0] == ' ') return 1;
-                if (cursor_linha == 18 && cursor_coluna == 50 && board[0][1] == ' ') return 2;
-                if (cursor_linha == 18 && cursor_coluna == 54 && board[0][2] == ' ') return 3;
-                if (cursor_linha == 20 && cursor_coluna == 46 && board[1][0] == ' ') return 4;
-                if (cursor_linha == 20 && cursor_coluna == 50 && board[1][1] == ' ') return 5;
-                if (cursor_linha == 20 && cursor_coluna == 54 && board[1][2] == ' ') return 6;
-                if (cursor_linha == 22 && cursor_coluna == 46 && board[2][0] == ' ') return 7;
-                if (cursor_linha == 22 && cursor_coluna == 50 && board[2][1] == ' ') return 8;
-                if (cursor_linha == 22 && cursor_coluna == 54 && board[2][2] == ' ') return 9;
-            }
+        }
+        if (frame % 8 == 0 ||  frame % 8 == 1 || frame % 8 == 2 ||  frame % 8 == 3)
+        {
+            tela_lincol(cursor_linha, cursor_coluna);
+            tela_cor_fundo(TITULO);
+            if (cursor_linha == 18 && cursor_coluna == 46 ) printf("%c", board[0][0]);
+            if (cursor_linha == 18 && cursor_coluna == 50 ) printf("%c", board[0][1]);
+            if (cursor_linha == 18 && cursor_coluna == 54 ) printf("%c", board[0][2]);
+            if (cursor_linha == 20 && cursor_coluna == 46 ) printf("%c", board[1][0]);
+            if (cursor_linha == 20 && cursor_coluna == 50 ) printf("%c", board[1][1]);
+            if (cursor_linha == 20 && cursor_coluna == 54 ) printf("%c", board[1][2]);
+            if (cursor_linha == 22 && cursor_coluna == 46 ) printf("%c", board[2][0]);
+            if (cursor_linha == 22 && cursor_coluna == 50 ) printf("%c", board[2][1]);
+            if (cursor_linha == 22 && cursor_coluna == 54 ) printf("%c", board[2][2]);
+        }
+        frame++;
+        tela_cor_fundo(FUNDO);
+        tela_atualiza();
+        char input = tecla_le_char(); // 18,46 ; 18,50 ; 18,54 ; 20,46 ; 20,50; 20,54 ; 22,46 ; 22,50 ; 22,54
+        if (UP)
+        {
+            if (cursor_linha != 18) cursor_linha -= 2;
+            frame = 0;
+        }    
+        if (DOWN)
+        {
+            if (cursor_linha != 22) cursor_linha += 2;
+            frame = 0;
+        }
+        if (LEFT)
+        {
+            if (cursor_coluna != 46) cursor_coluna -= 4;
+            frame = 0;
+        }    
+        if (RIGHT)
+        {
+            if (cursor_coluna != 54) cursor_coluna += 4;
+            frame = 0;
+        }            
+        if (OK)
+        {
+            if (cursor_linha == 18 && cursor_coluna == 46 && board[0][0] == ' ') return 1;
+            if (cursor_linha == 18 && cursor_coluna == 50 && board[0][1] == ' ') return 2;
+            if (cursor_linha == 18 && cursor_coluna == 54 && board[0][2] == ' ') return 3;
+            if (cursor_linha == 20 && cursor_coluna == 46 && board[1][0] == ' ') return 4;
+            if (cursor_linha == 20 && cursor_coluna == 50 && board[1][1] == ' ') return 5;
+            if (cursor_linha == 20 && cursor_coluna == 54 && board[1][2] == ' ') return 6;
+            if (cursor_linha == 22 && cursor_coluna == 46 && board[2][0] == ' ') return 7;
+            if (cursor_linha == 22 && cursor_coluna == 50 && board[2][1] == ' ') return 8;
+            if (cursor_linha == 22 && cursor_coluna == 54 && board[2][2] == ' ') return 9;
         }
     }
 }
@@ -525,15 +497,15 @@ bool imprime_resultado(int resultado, int jogadores, char board[3][3], int tema[
         tela_lincol(21,8);
         printf("Empates: %d", e2);
     }
-    tela_lincol(23,8);
-    printf("Aperte ENTER para jogar novamente.");
-    tela_lincol(25,8);
+    tela_lincol(26,8);
+    printf("Aperte ENTER ou ESPACO para jogar novamente.");
+    tela_lincol(28,8);
     printf("Aperte H para sair.");
     tela_atualiza();
     while (true)
     {
         char input = tecla_le_char();
-        if (input == '\n')
+        if (OK)
         {
         return true;
         }    
@@ -567,18 +539,18 @@ int personalizacao(int tema[3][3], int ponteiro)
         printf("►");
         tela_atualiza();
         char input = tecla_le_char();
-        if (input == 'w')
+        if (UP)
         {
             if (pos_ponteiro == 28) pos_ponteiro = 21;
             else if (pos_ponteiro != 13) pos_ponteiro-=2;
             
         }    
-        if (input == 's')
+        if (DOWN)
         {
             if (pos_ponteiro == 21) pos_ponteiro = 28;
             else if (pos_ponteiro != 28) pos_ponteiro+=2;
         }    
-        if (input == '\n')
+        if (OK)
         {
             if (pos_ponteiro == 28)
             {
@@ -657,17 +629,17 @@ int pers_tema(int tema[3][3], int ponteiro)
         printf("►");
         tela_atualiza();
         char input = tecla_le_char();
-        if (input == 'w')
+        if (UP)
         {
             if (pos_ponteiro == 28) pos_ponteiro = 19;
             else if (pos_ponteiro != 13) pos_ponteiro-=2;
         }    
-        if (input == 's')
+        if (DOWN)
         {
             if (pos_ponteiro == 19) pos_ponteiro = 28;
             else if (pos_ponteiro != 28) pos_ponteiro+=2;
         }    
-        if (input == '\n')
+        if (OK)
         {
             if (pos_ponteiro == 28)
             {
@@ -737,26 +709,26 @@ int pers_grade(int tema[3][3], int ponteiro)
         printf("►");
         tela_atualiza();
         char input = tecla_le_char();
-        if (input == 'w')
+        if (UP)
         {
             if (pos_ponteiro_lin == 28) pos_ponteiro_lin = 15;
         }    
-        if (input == 's')
+        if (DOWN)
         {
             if (pos_ponteiro_lin == 15) pos_ponteiro_lin = 28;
         }
         if (pos_ponteiro_lin == 15)
         {
-            if (input == 'a')
+            if (LEFT)
             {
                 if (pos_ponteiro_col == 55) pos_ponteiro_col = 5;
             }    
-            if (input == 'd')
+            if (RIGHT)
             {
                 if (pos_ponteiro_col == 5) pos_ponteiro_col = 55;
             }            
         }
-        if (input == '\n')
+        if (OK)
         {
             if (pos_ponteiro_lin == 28 && pos_ponteiro_col == 5)
             {
@@ -800,18 +772,18 @@ char pers_simbolo(int jogador, int tema[3][3], int ponteiro)
         printf("►");
         tela_atualiza();
         char input = tecla_le_char();
-        if (input == 'w')
+        if (UP)
         {
             if (pos_ponteiro == 28) pos_ponteiro = 23;
             else if (pos_ponteiro != 15) pos_ponteiro-=2;
             
         }    
-        if (input == 's')
+        if (DOWN)
         {
             if (pos_ponteiro == 23) pos_ponteiro = 28;
             else if (pos_ponteiro != 28) pos_ponteiro+=2;
         }    
-        if (input == '\n')
+        if (OK)
         {
             if (pos_ponteiro == 28)
             {
@@ -853,24 +825,24 @@ int pers_dificuldade(int tema[3][3], int ponteiro)
         tela_lincol(15,8);
         printf("Pouca");
         tela_lincol(17,8);
-        printf("Media (Padrao)");
+        printf("Media");
         tela_lincol(28,8);
         printf("Voltar");
         tela_lincol(pos_ponteiro, 5);
         printf("►");
         tela_atualiza();
         char input = tecla_le_char();
-        if (input == 'w')
+        if (UP)
         {
             if (pos_ponteiro == 28) pos_ponteiro = 17;
             else if (pos_ponteiro != 15) pos_ponteiro-=2;
         }    
-        if (input == 's')
+        if (DOWN)
         {
             if (pos_ponteiro == 17) pos_ponteiro = 28;
             else if (pos_ponteiro != 28) pos_ponteiro+=2;
         }    
-        if (input == '\n')
+        if (OK)
         {
             if (pos_ponteiro == 28)
             {
@@ -929,17 +901,17 @@ int main()
             tecla_ini();
             frame++;
             input = tecla_le_char();
-            if (input == 'w')
+            if (UP)
             {
                 if (pos_ponteiro_menu == 28) pos_ponteiro_menu=17; 
                 else if (pos_ponteiro_menu != 13) pos_ponteiro_menu-=2;
             }    
-            if (input == 's')
+            if (DOWN)
             {
                 if (pos_ponteiro_menu == 17) pos_ponteiro_menu=28;
                 else if (pos_ponteiro_menu != 28) pos_ponteiro_menu+=2;
             }    
-            if (input == '\n')
+            if (OK)
             {
                 if  (pos_ponteiro_menu == 28)
                 {
