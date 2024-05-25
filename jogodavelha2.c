@@ -775,69 +775,35 @@ int pers_grade(int tema[3][3], int ponteiro)
     }   
 }
 
-char pers_simbolo(int jogador, int tema[3][3], int ponteiro)
+char pers_simbolo(int jogador, int tema[3][3], char simbolo1, char simbolo2)
 {
-    int pos_ponteiro = ponteiro;
+    int marcador;
+    if (jogador == 1) marcador = simbolo1;
+    if (jogador == 2) marcador = simbolo2;
     while (true)
     {
         hud(tema);
         tela_cor_letra(TEXTO);
         tela_lincol(13,8);
-        if (jogador == 1) printf("Selecione o simbolo para atribuir ao jogador 1: ");
-        if (jogador == 2) printf("Selecione o simbolo para atribuir ao jogador 2 e ao Robo: ");
+        if (jogador == 1) printf("Digite o simbolo para atribuir ao jogador 1: ");
+        if (jogador == 2) printf("Digite o simbolo para atribuir ao jogador 2 e ao Robo: ");
         tela_lincol(15,8);
-        printf("X");
-        tela_lincol(17,8);
-        printf("O");
-        tela_lincol(19,8);
-        printf("@");
+        printf("Use o shift normalmente.");
         tela_lincol(21,8);
-        printf("&");
-        tela_lincol(23,8);
-        printf("$");
+        printf("Simbolo selecionado: ");
+        tela_lincol(21,29);
+        printf("%c", marcador);
         tela_lincol(28,8);
-        printf("Voltar");
-        tela_lincol(pos_ponteiro, 5);
-        printf("►");
+        printf("Aperte ENTER ou ESPACO para voltar.");
         tela_atualiza();
         char input = tecla_le_char();
-        if (UP)
+        if (!(OK) && input != '\0' && input != '\t' && input != '\e' && input != '\b' && input != '\v')
         {
-            if (pos_ponteiro == 28) pos_ponteiro = 23;
-            else if (pos_ponteiro != 15) pos_ponteiro-=2;
-            
-        }    
-        if (DOWN)
+            marcador = input;    
+        }
+        else if ((OK) && marcador != ' ')
         {
-            if (pos_ponteiro == 23) pos_ponteiro = 28;
-            else if (pos_ponteiro != 28) pos_ponteiro+=2;
-        }    
-        if (OK)
-        {
-            if (pos_ponteiro == 28)
-            {
-                return ' ';
-            }
-            else if  (pos_ponteiro == 15)
-            {
-                return 'X';
-            }
-            else if (pos_ponteiro == 17)
-            {
-                return 'O';
-            }
-            else if (pos_ponteiro == 19)
-            {
-                return '@';
-            }
-            else if (pos_ponteiro == 21)
-            {
-                return '&';
-            }
-            else if (pos_ponteiro == 23)
-            {
-                return '$';
-            }
+            return marcador;
         }
     }
 }
@@ -1037,24 +1003,14 @@ int main()
                         else if (pers == 3)
                         {
                             pos_ponteiro_pers = 17;
-                            char perssimbolo = pers_simbolo(1, tema, pos_ponteiro_icone1);
+                            char perssimbolo = pers_simbolo(1, tema, simbolo_j1, simbolo_j2);
                             simbolo_j1 = perssimbolo;
-                            if (perssimbolo == 'X') pos_ponteiro_icone1 = 15;
-                            if (perssimbolo == 'O') pos_ponteiro_icone1 = 17;
-                            if (perssimbolo == '@') pos_ponteiro_icone1 = 19;
-                            if (perssimbolo == '&') pos_ponteiro_icone1 = 21;
-                            if (perssimbolo == '$') pos_ponteiro_icone1 = 23;
                         }
                         else if (pers == 4)
                         {
                             pos_ponteiro_pers = 19;
-                            char perssimbolo = pers_simbolo(2, tema, pos_ponteiro_icone2);
+                            char perssimbolo = pers_simbolo(2, tema, simbolo_j1, simbolo_j2);
                             simbolo_j2 = perssimbolo;
-                            if (perssimbolo == 'X') pos_ponteiro_icone2 = 15;
-                            if (perssimbolo == 'O') pos_ponteiro_icone2 = 17;
-                            if (perssimbolo == '@') pos_ponteiro_icone2 = 19;
-                            if (perssimbolo == '&') pos_ponteiro_icone2 = 21;
-                            if (perssimbolo == '$') pos_ponteiro_icone2 = 23;
                         }
                         else if (pers == 5)
                         {
