@@ -116,7 +116,7 @@ void hud(int tema[3][3])
 
 int robo_joga(int dificuldade, char board[3][3], char iconj1, char iconj2)
 {
-    for(int i = 0; i < 1000000000; i++){}
+    for(int i = 0; i < 250000000; i++){}
     if (dificuldade == 0)
     {
         int input_linha;
@@ -596,7 +596,7 @@ int personalizacao(int tema[3][3], int ponteiro)
     }  
 }
 
-int pers_tema(int tema[3][3], int ponteiro)
+int pers_tema(int tema[3][3], int ponteiro, int tema1[3][3], int tema2[3][3], int tema3[3][3], int tema4[3][3], int tema5[3][3])
 {
     int pos_ponteiro = ponteiro;
     while (true)
@@ -605,37 +605,46 @@ int pers_tema(int tema[3][3], int ponteiro)
         tela_cor_letra(TEXTO);
         tela_lincol(13,8);
         printf("Tema 1: ");
-        tela_cor_letra(200,200,200);
-        tela_cor_fundo(24,18,43);
+        tela_cor_letra(tema1[0][0],tema1[0][1],tema1[0][2]);
+        tela_cor_fundo(tema1[2][0],tema1[2][1],tema1[2][2]);
         printf("Texto");
-        tela_cor_letra(99,89,133);
+        tela_cor_letra(tema1[1][0],tema1[1][1],tema1[1][2]);
         printf("Titulo");
         tela_lincol(15, 8);
         tela_cor_letra(TEXTO);
         tela_cor_fundo(FUNDO);
         printf("Tema 2: ");
-        tela_cor_letra(247, 37, 133);
-        tela_cor_fundo(58, 12, 163);
+        tela_cor_letra(tema2[0][0],tema2[0][1],tema2[0][2]);
+        tela_cor_fundo(tema2[2][0],tema2[2][1],tema2[2][2]);
         printf("Texto");
-        tela_cor_letra(247, 37, 133);
+        tela_cor_letra(tema2[1][0],tema2[1][1],tema2[1][2]);
         printf("Titulo");
         tela_lincol(17,8);
         tela_cor_letra(TEXTO);
         tela_cor_fundo(FUNDO);
         printf("Tema 3: ");
-        tela_cor_letra(66, 70, 66);
-        tela_cor_fundo(243, 244, 237);
+        tela_cor_letra(tema3[0][0],tema3[0][1],tema3[0][2]);
+        tela_cor_fundo(tema3[2][0],tema3[2][1],tema3[2][2]);
         printf("Texto");
-        tela_cor_letra(192, 96, 20);
+        tela_cor_letra(tema3[1][0],tema3[1][1],tema3[1][2]);
         printf("Titulo");
         tela_lincol(19,8);
         tela_cor_letra(TEXTO);
         tela_cor_fundo(FUNDO);
         printf("Tema 4: ");
-        tela_cor_letra(202, 210, 197);
-        tela_cor_fundo(47, 62, 70);
+        tela_cor_letra(tema4[0][0],tema4[0][1],tema4[0][2]);
+        tela_cor_fundo(tema4[2][0],tema4[2][1],tema4[2][2]);
         printf("Texto");
-        tela_cor_letra(82, 121, 111);
+        tela_cor_letra(tema4[1][0],tema4[1][1],tema4[1][2]);
+        printf("Titulo");
+        tela_lincol(21,8);
+        tela_cor_letra(TEXTO);
+        tela_cor_fundo(FUNDO);
+        printf("Tema 5: ");
+        tela_cor_letra(tema5[0][0],tema5[0][1],tema5[0][2]);
+        tela_cor_fundo(tema5[2][0],tema5[2][1],tema5[2][2]);
+        printf("Texto");
+        tela_cor_letra(tema5[1][0],tema5[1][1],tema5[1][2]);
         printf("Titulo");
         tela_cor_letra(TEXTO);
         tela_cor_fundo(FUNDO);
@@ -647,12 +656,12 @@ int pers_tema(int tema[3][3], int ponteiro)
         char input = tecla_le_char();
         if (UP)
         {
-            if (pos_ponteiro == 28) pos_ponteiro = 19;
+            if (pos_ponteiro == 28) pos_ponteiro = 21;
             else if (pos_ponteiro != 13) pos_ponteiro-=2;
         }    
         if (DOWN)
         {
-            if (pos_ponteiro == 19) pos_ponteiro = 28;
+            if (pos_ponteiro == 21) pos_ponteiro = 28;
             else if (pos_ponteiro != 28) pos_ponteiro+=2;
         }    
         if (OK)
@@ -676,6 +685,10 @@ int pers_tema(int tema[3][3], int ponteiro)
             else if (pos_ponteiro == 19)
             {
                 return 4;
+            }
+            else if (pos_ponteiro == 21)
+            {
+                return 5;
             }
         }
     }
@@ -965,9 +978,10 @@ int main()
                             {
                                 int tema1[3][3] = {{200,200,200},{99,89,133},{24,18,43}};
                                 int tema2[3][3] = {{248, 249, 250},{247, 37, 133},{58, 12, 163}};
-                                int tema3[3][3] = {{66,70,66},{192,96,20},{243,244,237}};
-                                int tema4[3][3] = {{202, 210, 197},{82, 121, 111},{47, 62, 70}};
-                                int perstema = pers_tema(tema, pos_ponteiro_tema);
+                                int tema3[3][3] = {{202, 210, 197},{82, 121, 111},{47, 62, 70}};
+                                int tema4[3][3] = {{255, 248, 240},{132, 0, 50},{0, 18, 51}};
+                                int tema5[3][3] = {{94, 48, 35},{192, 133, 82},{243, 233, 220}};
+                                int perstema = pers_tema(tema, pos_ponteiro_tema, tema1, tema2, tema3, tema4, tema5);
                                 if (perstema == -1)
                                 {
                                     break;
@@ -997,6 +1011,11 @@ int main()
                                             {
                                                 tema[i][j] = tema4[i][j];
                                                 pos_ponteiro_tema = 19;
+                                            }
+                                            if (perstema == 5)
+                                            {
+                                                tema[i][j] = tema5[i][j];
+                                                pos_ponteiro_tema = 21;
                                             }
                                         }
                                     }
