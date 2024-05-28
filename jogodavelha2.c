@@ -1120,7 +1120,8 @@ int main()
                         if (lugar == 6) jogo[1][2] = simbolo_j1;
                         if (lugar == 7) jogo[2][0] = simbolo_j1;
                         if (lugar == 8) jogo[2][1] = simbolo_j1;
-                        if (lugar == 9) jogo[2][2] = simbolo_j1;                        jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
+                        if (lugar == 9) jogo[2][2] = simbolo_j1;                        
+                        jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                     }
                 }
