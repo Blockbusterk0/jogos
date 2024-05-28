@@ -889,13 +889,12 @@ int main()
     int pos_ponteiro_icone2 = 17;
     int pos_ponteiro_dific = 17;
     int cursor;
-
+    tela_ini();
+    tecla_ini();
     while(jogo_ligado == true)
     {
         while (true)
         {
-            tela_ini();
-            tecla_ini();
             tela_mostra_cursor(false);
             hud(tema);
             tela_lincol(13,8);
