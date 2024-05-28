@@ -752,7 +752,7 @@ int pers_grade(int tema[3][3], int ponteiro)
         }    
         if (DOWN)
         {
-            if (pos_ponteiro_lin == 15) pos_ponteiro_lin = 28;
+            if (pos_ponteiro_lin == 15 && pos_ponteiro_col == 5) pos_ponteiro_lin = 28;
         }
         if (pos_ponteiro_lin == 15)
         {
