@@ -10,7 +10,7 @@
 #define UP input == 'w' || input == 'A'
 #define DOWN input == 's' || input == 'B'
 #define RIGHT input == 'd' || input == 'C'
-#define LEFT input == 'a' || input == 'D'
+#define LEFT input == 'a' || input == 'D'   
 #define OK input == '\n' || input == ' '
 
 //Use a proporcao do terminal 99x30!
@@ -81,7 +81,6 @@ void hud(int tema[3][3])
 {
     tela_limpa();
     tela_cor_fundo(FUNDO);
-    tela_mostra_cursor(false);
     tela_lincol(3,1);
     tela_cor_letra(TITULO);
     printf(" ░░░░░░██╗░█████╗░░██████╗░░█████╗░░░██████╗░░█████╗░░░██╗░░░██╗███████╗██╗░░░░░██╗░░██╗░█████╗░░░\n");
@@ -318,12 +317,21 @@ int robo_joga(int dificuldade, char board[3][3], char iconj1, char iconj2)
     }
 }
 
-int imprime_jogo(int jogador, int jogadores, char board[3][3], int tema[3][3], int estilo, char iconj1, char iconj2)
+int imprime_jogo(int jogador, int jogadores, char board[3][3], int tema[3][3], int estilo, char iconj1, char iconj2, int cursor)
 {
     hud(tema);
     tela_cor_letra(TEXTO);
-    int cursor_linha = 20;
-    int cursor_coluna = 50;
+    int cursor_linha;
+    int cursor_coluna;
+    if (cursor == 1) {cursor_linha = 18; cursor_coluna = 46;}
+    if (cursor == 2) {cursor_linha = 18; cursor_coluna = 50;}
+    if (cursor == 3) {cursor_linha = 18; cursor_coluna = 54;}
+    if (cursor == 4) {cursor_linha = 20; cursor_coluna = 46;}
+    if (cursor == 5) {cursor_linha = 20; cursor_coluna = 50;}
+    if (cursor == 6) {cursor_linha = 20; cursor_coluna = 54;}
+    if (cursor == 7) {cursor_linha = 22; cursor_coluna = 46;}
+    if (cursor == 8) {cursor_linha = 22; cursor_coluna = 50;}
+    if (cursor == 9) {cursor_linha = 22; cursor_coluna = 54;}
     int frame = 0;
     while (true)
     {
@@ -866,7 +874,6 @@ int main()
     int grade = 1;
     char input;
     bool jogo_ligado = true;
-    int pos_ponteiro_menu = 13;
     int frame = 0; // random improvisado kk
     int vitorias_1 = 0;
     int vitorias_robo = 0;
@@ -874,12 +881,22 @@ int main()
     int vitorias_j1 = 0;
     int vitorias_j2 = 0;
     int empates_2 = 0;
+    int pos_ponteiro_menu = 13;
+    int pos_ponteiro_pers = 13;
+    int pos_ponteiro_tema = 13;
+    int pos_ponteiro_grade = 5;
+    int pos_ponteiro_icone1 = 15;
+    int pos_ponteiro_icone2 = 17;
+    int pos_ponteiro_dific = 17;
+    int cursor;
 
     while(jogo_ligado == true)
     {
         while (true)
         {
             tela_ini();
+            tecla_ini();
+            tela_mostra_cursor(false);
             hud(tema);
             tela_lincol(13,8);
             tela_cor_letra(TEXTO);
@@ -893,7 +910,6 @@ int main()
             tela_lincol(pos_ponteiro_menu, 5);
             printf("►");
             tela_atualiza();
-            tecla_ini();
             frame++;
             input = tecla_le_char();
             if (UP)
@@ -926,12 +942,6 @@ int main()
                 else if (pos_ponteiro_menu == 17)
                 {
                     pos_ponteiro_menu = 13;
-                    int pos_ponteiro_pers = 13;
-                    int pos_ponteiro_tema = 13;
-                    int pos_ponteiro_grade = 5;
-                    int pos_ponteiro_icone1 = 15;
-                    int pos_ponteiro_icone2 = 17;
-                    int pos_ponteiro_dific = 17;
                     while (true)
                     {
                         int pers = personalizacao(tema, pos_ponteiro_pers);
@@ -1029,6 +1039,7 @@ int main()
         }
         if (jogo_ligado == true)
         {
+            cursor = 5;
             bool jogador_1_comeca;
             if (frame % 2 == 0) jogador_1_comeca = true;
             else jogador_1_comeca = false;
@@ -1052,7 +1063,8 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
+                        cursor = lugar;
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1065,7 +1077,7 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                         jogador_da_rodada = 2;
-                        imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
                         lugar = robo_joga(dificuldade, jogo, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
@@ -1085,7 +1097,7 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 2;
-                        imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
                         lugar = robo_joga(dificuldade, jogo, simbolo_j1, simbolo_j2);
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
@@ -1099,7 +1111,8 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
+                        cursor = lugar;
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1108,8 +1121,7 @@ int main()
                         if (lugar == 6) jogo[1][2] = simbolo_j1;
                         if (lugar == 7) jogo[2][0] = simbolo_j1;
                         if (lugar == 8) jogo[2][1] = simbolo_j1;
-                        if (lugar == 9) jogo[2][2] = simbolo_j1;
-                        jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
+                        if (lugar == 9) jogo[2][2] = simbolo_j1;                        jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                     }
                 }
@@ -1136,7 +1148,8 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
+                        cursor = lugar;
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1149,7 +1162,8 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;
                         jogador_da_rodada = 2;
-                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
+                        cursor = lugar;
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
                         if (lugar == 3) jogo[0][2] = simbolo_j2;
@@ -1168,7 +1182,8 @@ int main()
                     while (jogo_status == ' ')
                     {
                         jogador_da_rodada = 2;
-                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
+                        cursor = lugar;
                         if (lugar == 1) jogo[0][0] = simbolo_j2;
                         if (lugar == 2) jogo[0][1] = simbolo_j2;
                         if (lugar == 3) jogo[0][2] = simbolo_j2;
@@ -1181,7 +1196,8 @@ int main()
                         jogo_status = jogo_estado(jogo, simbolo_j1, simbolo_j2);
                         if (jogo_status != ' ') continue;    
                         jogador_da_rodada = 1;
-                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2);
+                        lugar = imprime_jogo(jogador_da_rodada, jogadores, jogo, tema, grade, simbolo_j1, simbolo_j2, cursor);
+                        cursor = lugar;
                         if (lugar == 1) jogo[0][0] = simbolo_j1;
                         if (lugar == 2) jogo[0][1] = simbolo_j1;
                         if (lugar == 3) jogo[0][2] = simbolo_j1;
@@ -1215,4 +1231,6 @@ int main()
             continue;
         }
     }
+    tecla_fim();
+    tela_fim();
 }
